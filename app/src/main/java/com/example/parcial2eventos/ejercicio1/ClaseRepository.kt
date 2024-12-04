@@ -40,7 +40,8 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
                 .whereEqualTo("dia", dia)
                 .addSnapshotListener { snapshot, e ->
                     if (e != null) {
-                        Log.e(TAG, "Error al obtener clases", e)
+                        clasesLiveData.value = emptyList()
+                        Log.e(TAG, "Error al obtener clases", e)    // Si hay un error, devuelve una lista vacia.
                         return@addSnapshotListener
                     }
                     if (snapshot != null && !snapshot.isEmpty) {
