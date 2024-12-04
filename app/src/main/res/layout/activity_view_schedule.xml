@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="?attr/colorSurface"
-    tools:context=".ejercicio1.ViewSchedule">
+    tools:context=".ejercicio1.data.ui.ViewSchedule">
 
     <!-- Header con los días de la semana -->
     <HorizontalScrollView

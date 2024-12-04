@@ -1,4 +1,4 @@
-package com.example.parcial2eventos.ejercicio1.model
+package com.example.parcial2eventos.ejercicio1.data.model
 
 data class Clase (
     val id: String = "",

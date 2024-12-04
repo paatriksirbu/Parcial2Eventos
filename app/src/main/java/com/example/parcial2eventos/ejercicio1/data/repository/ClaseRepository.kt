@@ -1,10 +1,9 @@
-package com.example.parcial2eventos.ejercicio1
+package com.example.parcial2eventos.ejercicio1.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.parcial2eventos.ejercicio1.model.Clase
-import com.google.android.gms.tasks.Task
+import com.example.parcial2eventos.ejercicio1.data.model.Clase
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
