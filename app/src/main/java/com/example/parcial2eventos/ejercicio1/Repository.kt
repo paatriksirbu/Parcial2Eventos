@@ -27,4 +27,16 @@ class Repository @Inject constructor(private val firestore: FirebaseFirestore){
             }
         return clasesLiveData
     }
+
+    fun getClaseActual(dia: String, horaActual: String): LiveData<Clase?> {
+        val claseLiveData = MutableLiveData<Clase?>()
+        firestore.collection("clases")
+            .whereEqualTo("dia", dia)
+            .whereLessThanOrEqualTo("horaInicio", horaActual)
+            .whereGreaterThanOrEqualTo("horaFin", horaActual)
+            .addSnapshotListener { snapshot, _ ->
+                claseLiveData.value = snapshot?.toObjects(Clase::class.java)?.firstOrNull()
+            }
+        return claseLiveData
+    }
 }
