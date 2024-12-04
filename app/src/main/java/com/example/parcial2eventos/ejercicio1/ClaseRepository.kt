@@ -7,7 +7,11 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val firestore: FirebaseFirestore){
+class ClaseRepository @Inject constructor(private val firestore: FirebaseFirestore){
+
+    companion object {
+        const val TAG = "Clase Repository"
+    }
 
     fun addClase(clase: Clase): Task<Void> {
         val document = firestore.collection("clases").document()
