@@ -1,28 +1,28 @@
 package com.example.parcial2eventos.ejercicio1
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.parcial2eventos.ejercicio1.model.Clase
 import javax.inject.Inject
 
-
 class ClaseViewModel @Inject constructor(private val repository: ClaseRepository) : ViewModel() {
 
-    val clasesPorDia = MutableLiveData<List<Clase>>()
-    val claseActual = MutableLiveData<Clase?>()
+    val clasesPorDia: MutableLiveData<List<Clase>> = MutableLiveData()
+    val claseActual: MutableLiveData<Clase?> = MutableLiveData()
 
-    fun addClase(clase: Clase) {
-        repository.addClase(clase).addOnCompleteListener {
-            if (it.isSuccessful) {
-                // Handle success
-            }
-        }
+    fun addClase(clase: Clase, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
+        repository.addClase(clase, onSuccess, onError)
     }
 
     fun cargarClasesPorDia(dia: String) {
-        clasesPorDia.value = repository.getClasesPorDia(dia).value
+        repository.getClasesPorDia(dia).observeForever{
+            clasesPorDia.value = it
+        }
     }
 
     fun cargarClaseActual(dia: String, horaActual: String) {
-        claseActual.value = repository.getClaseActual(dia, horaActual).value
+        repository.getClaseActual(dia, horaActual).observeForever{
+            claseActual.value = it
+        }
     }
 }
