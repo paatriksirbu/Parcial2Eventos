@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parcial2eventos.ejercicio1.data.ui.MainActivity
 import com.example.parcial2eventos.ejercicio2.ui.listeventos.ListEventosActivity
+import com.example.parcial2eventos.ejercicio3.ui.detail.PharmacyListActivity
+import com.example.parcial2eventos.ejercicio3.ui.list.PharmacyDetailActivity
 
 class InicioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +39,13 @@ class InicioActivity : AppCompatActivity() {
         }
 
         btnEjercicio3.setOnClickListener {
-            // Redirigir a Ejercicio 3: ListEventosActivity
-            startActivity(intent)
+            try {
+                val intent = Intent(this, PharmacyDetailActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this, "Error al abrir Ejercicio 3", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

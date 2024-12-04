@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    tools:ignore="ExtraText">
+
+    <!-- Icono de farmacia -->
+    <ImageView
+        android:id="@+id/icon_pharmacy"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Nombre de la farmacia -->
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nombre de Farmacia"
+        android:textAppearance="?attr/textAppearanceBody1"
+        app:layout_constraintStart_toEndOf="@id/icon_pharmacy"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Dirección de la farmacia -->
+    <TextView
+        android:id="@+id/txt_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Dirección"
+        android:textAppearance="?attr/textAppearanceBody2"
+        app:layout_constraintStart_toEndOf="@id/icon_pharmacy"
+        app:layout_constraintTop_toBottomOf="@id/txt_name"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
