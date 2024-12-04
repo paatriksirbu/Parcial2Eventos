@@ -1,0 +1,23 @@
+<resources>
+    <!-- General -->
+    <string name="app_name">Parcial 2 Eventos</string>
+
+    <!-- Lista de eventos -->
+    <string name="no_hay_eventos">No events available.</string>
+    <string name="agregar_evento">Add event</string>
+
+    <!-- Registro de eventos -->
+    <string name="guardar">Save</string>
+    <string name="cancelar">Cancel</string>
+    <string name="nombre">Name</string>
+    <string name="descripcion">Description</string>
+    <string name="direccion">Address</string>
+    <string name="precio">Price</string>
+    <string name="campos_obligatorios">Please fill in the required fields.</string>
+    <string name="evento_guardado">Event saved successfully.</string>
+    <string name="error_guardar_evento">Error saving the event.</string>
+
+    <!-- Placeholder en elementos vacíos -->
+    <string name="sin_descripcion">No description</string>
+    <string name="precio_desconocido">Free</string>
+</resources>

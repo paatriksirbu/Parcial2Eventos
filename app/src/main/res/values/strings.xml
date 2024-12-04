@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">Mi Horario</string>
+    <string name="app_name">Parcial 2 Eventos</string>
+
+    <!-- Lista de eventos -->
+    <string name="no_hay_eventos">No hay eventos disponibles.</string>
+    <string name="agregar_evento">Agregar evento</string>
+
+    <!-- Registro de eventos -->
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="nombre">Nombre</string>
+    <string name="descripcion">Descripción</string>
+    <string name="direccion">Dirección</string>
+    <string name="precio">Precio</string>
+    <string name="campos_obligatorios">Por favor, completa los campos obligatorios.</string>
+    <string name="evento_guardado">Evento guardado con éxito.</string>
+    <string name="error_guardar_evento">Error al guardar el evento.</string>
+
+    <!-- Placeholder en elementos vacíos -->
+    <string name="sin_descripcion">Sin descripción</string>
+    <string name="precio_desconocido">Gratis</string>
 </resources>
