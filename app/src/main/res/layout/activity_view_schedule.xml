@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="?attr/colorSurface"
     tools:context=".ejercicio1.ViewSchedule">
 
@@ -77,6 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnMonday"
         app:layout_constraintBottom_toBottomOf="parent"
         android:padding="8dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        tools:ignore="NotSibling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

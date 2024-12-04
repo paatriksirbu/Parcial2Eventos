@@ -1,5 +1,6 @@
 package com.example.parcial2eventos.ejercicio1
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.parcial2eventos.ejercicio1.model.Clase
@@ -14,10 +15,8 @@ class ClaseViewModel(private val repository: ClaseRepository) : ViewModel() {
         repository.addClase(clase, onSuccess, onError)
     }
 
-    fun cargarClasesPorDia(dia: String) {
-        repository.getClasesPorDia(dia).observeForever{
-            clasesPorDia.value = it
-        }
+    fun cargarClasesPorDia(dia: String) : LiveData<List<Clase>> {
+        return repository.getClasesPorDia(dia)
     }
 
     fun cargarClaseActual(dia: String, horaActual: String) {

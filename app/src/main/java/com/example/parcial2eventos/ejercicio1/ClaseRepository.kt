@@ -35,6 +35,7 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
 
     fun getClasesPorDia(dia: String): LiveData<List<Clase>> {
         val clasesLiveData = MutableLiveData<List<Clase>>()
+
         try {
             firestore.collection("clases")
                 .whereEqualTo("dia", dia)
@@ -48,6 +49,9 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
                         val clases = snapshot.toObjects(Clase::class.java)
                         clasesLiveData.value = clases
                         Log.d(TAG, "Clases obtenidas para $dia: ${clases.size}")
+                    } else {
+                        clasesLiveData.value = emptyList()  // En el caso de que no haya datos.
+                        Log.d(TAG, "No hay clases para $dia")
                     }
                 }
         } catch (e: Exception) {
