@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.parcial2eventos.ejercicio1.model.Clase
 import javax.inject.Inject
 
-class ClaseViewModel @Inject constructor(private val repository: ClaseRepository) : ViewModel() {
+class ClaseViewModel(private val repository: ClaseRepository) : ViewModel() {
 
     val clasesPorDia: MutableLiveData<List<Clase>> = MutableLiveData()
     val claseActual: MutableLiveData<Clase?> = MutableLiveData()
