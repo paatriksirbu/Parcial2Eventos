@@ -4,16 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:layout_marginBottom="8dp"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="?attr/colorSurface">
 
     <!-- Barra lateral de progreso -->
     <View
         android:id="@+id/progressBar"
-        android:layout_width="4dp"
-        android:layout_height="match_parent"
-        android:background="?attr/colorPrimary"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPastelPink"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -23,10 +22,8 @@
         android:id="@+id/cardClass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryVariant"
-        android:backgroundTint="@android:color/white"
         app:cardCornerRadius="8dp"
-        app:layout_constraintStart_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toEndOf="@id/progressBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,24 +34,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@color/material_dynamic_primary90">
 
+            <!-- Nombre de la clase -->
             <TextView
                 android:id="@+id/tvClassName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre de Asignatura"
+                android:text="Nombre de la Asignatura"
                 android:textSize="16sp"
-                android:textColor="?attr/colorOnPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="4dp" />
 
+            <!-- Hora de la clase -->
             <TextView
                 android:id="@+id/tvClassTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hora"
                 android:textSize="14sp"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnSurface" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
