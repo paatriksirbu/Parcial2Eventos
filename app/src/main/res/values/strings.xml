@@ -12,6 +12,8 @@
     <string name="descripcion">Descripción</string>
     <string name="direccion">Dirección</string>
     <string name="precio">Precio</string>
+    <string name="fecha">Fecha</string>
+    <string name="aforo">Aforo</string>
     <string name="campos_obligatorios">Por favor, completa los campos obligatorios.</string>
     <string name="evento_guardado">Evento guardado con éxito.</string>
     <string name="error_guardar_evento">Error al guardar el evento.</string>

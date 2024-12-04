@@ -13,6 +13,8 @@
     <string name="descripcion">Description</string>
     <string name="direccion">Address</string>
     <string name="precio">Price</string>
+    <string name="fecha">Date</string>
+    <string name="aforo">Capacity</string>
     <string name="campos_obligatorios">Please fill in the required fields.</string>
     <string name="evento_guardado">Event saved successfully.</string>
     <string name="error_guardar_evento">Error saving the event.</string>

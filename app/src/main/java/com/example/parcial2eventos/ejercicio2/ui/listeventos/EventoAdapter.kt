@@ -31,8 +31,8 @@ class EventoAdapter(private var eventos: List<Evento>) :
     }
 
     class EventoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvNombre: TextView = itemView.findViewById(R.id.tvNombre)
-        val tvDescripcion: TextView = itemView.findViewById(R.id.tvDescripcion)
-        val tvPrecio: TextView = itemView.findViewById(R.id.tvPrecio)
+        val tvNombre: TextView = itemView.findViewById(R.id.tvNombreEvento)
+        val tvDescripcion: TextView = itemView.findViewById(R.id.tvDescripcionEvento)
+        val tvPrecio: TextView = itemView.findViewById(R.id.tvPrecioEvento)
     }
 }

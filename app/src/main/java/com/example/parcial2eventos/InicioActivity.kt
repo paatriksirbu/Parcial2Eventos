@@ -3,8 +3,10 @@ package com.example.parcial2eventos
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.parcial2eventos.ejercicio1.data.ui.MainActivity
+import com.example.parcial2eventos.ejercicio2.ui.listeventos.ListEventosActivity
 
 class InicioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +26,14 @@ class InicioActivity : AppCompatActivity() {
         }
 
         btnEjercicio2.setOnClickListener {
-            // Redirigir a Ejercicio 2: QueTocaActivity
-            startActivity(intent)
+            // Redirigir a Ejercicio 2: ListEventosActivity
+            try {
+                val intent = Intent(this, ListEventosActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this, "Error al abrir Ejercicio 2", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnEjercicio3.setOnClickListener {
