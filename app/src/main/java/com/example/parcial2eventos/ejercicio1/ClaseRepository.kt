@@ -35,14 +35,23 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
 
     fun getClasesPorDia(dia: String): LiveData<List<Clase>> {
         val clasesLiveData = MutableLiveData<List<Clase>>()
-        firestore.collection("clases")
-            .whereEqualTo("dia", dia)
-            .addSnapshotListener {snapshot, _ ->
-                if (snapshot != null) {
-                    val clases = snapshot.toObjects(Clase::class.java)
-                    clasesLiveData.value = clases
+        try {
+            firestore.collection("clases")
+                .whereEqualTo("dia", dia)
+                .addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        Log.e(TAG, "Error al obtener clases", e)
+                        return@addSnapshotListener
+                    }
+                    if (snapshot != null && !snapshot.isEmpty) {
+                        val clases = snapshot.toObjects(Clase::class.java)
+                        clasesLiveData.value = clases
+                        Log.d(TAG, "Clases obtenidas para $dia: ${clases.size}")
+                    }
                 }
-            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Excepción al obtener clases", e)
+        }
         return clasesLiveData
     }
 
