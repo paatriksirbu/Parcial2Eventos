@@ -3,6 +3,7 @@ package com.example.parcial2eventos.ejercicio3.ui.list
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,6 +30,7 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pharmacy_detail)
+        Log.d("PharmacyDetailActivity", "Actividad creada")
 
         // Configurar el fragmento del mapa
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment

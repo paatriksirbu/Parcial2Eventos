@@ -71,4 +71,5 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
 
     implementation("com.google.android.gms:play-services-maps:18.0.1")
+    implementation("com.google.android.gms:play-services-location:19.0.0")
 }
