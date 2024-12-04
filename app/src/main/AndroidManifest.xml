@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Parcial2Eventos"
         tools:targetApi="31">
         <activity
-            android:name=".ejercicio1.data.ui.MainActivity"
+            android:name=".InicioActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Parcial2Eventos">
@@ -26,6 +26,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ejercicio1.data.ui.MainActivity"
+            android:exported="true">
         </activity>
 
         <activity
