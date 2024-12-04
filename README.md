@@ -1,4 +1,4 @@
-# **Parcial 2 Eventos
+# **Parcial 2 Eventos**
 
 ## **Descripción General**
 Esta aplicación consta de tres ejercicios diferentes, cada uno implementado como un módulo funcional. La app utiliza principios de diseño modernos (Material Design), acceso a Firestore, y se estructura siguiendo principios SOLID para garantizar un desarrollo limpio y mantenible.
