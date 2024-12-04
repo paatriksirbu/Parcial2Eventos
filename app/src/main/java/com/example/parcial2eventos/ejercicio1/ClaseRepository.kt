@@ -14,7 +14,7 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
         const val TAG = "Clase Repository"
     }
 
-    fun addClase(clase: Clase, onSuccess: () -> Unit, onError: (Exception) -> Unit): Task<Void> {
+    fun addClase(clase: Clase, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
         try {
             val document = firestore.collection("clases").document()
             val claseWithId = clase.copy(id = document.id)
@@ -57,13 +57,28 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
 
     fun getClaseActual(dia: String, horaActual: String): LiveData<Clase?> {
         val claseLiveData = MutableLiveData<Clase?>()
-        firestore.collection("clases")
-            .whereEqualTo("dia", dia)
-            .whereLessThanOrEqualTo("horaInicio", horaActual)
-            .whereGreaterThanOrEqualTo("horaFin", horaActual)
-            .addSnapshotListener { snapshot, _ ->
-                claseLiveData.value = snapshot?.toObjects(Clase::class.java)?.firstOrNull()
-            }
+        try {
+            firestore.collection("clases")
+                .whereEqualTo("dia", dia)
+                .whereLessThanOrEqualTo("horaInicio", horaActual)
+                .whereGreaterThanOrEqualTo("horaFin", horaActual)
+                .addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        Log.e(TAG, "Error al obtener clase actual", e)
+                        return@addSnapshotListener
+                    }
+                    if (snapshot != null && !snapshot.isEmpty) {
+                        val clase = snapshot.toObjects(Clase::class.java).firstOrNull()
+                        claseLiveData.value = clase
+                        Log.d(TAG, "Clase actual obtenida para $dia: ${clase?.nombre}")
+                    } else {
+                        claseLiveData.value = null
+                        Log.d(TAG, "No hay clase en este momento")
+                    }
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "Excepción al obtener clase actual", e)
+        }
         return claseLiveData
     }
 }
