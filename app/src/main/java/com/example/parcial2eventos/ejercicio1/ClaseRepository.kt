@@ -1,5 +1,6 @@
 package com.example.parcial2eventos.ejercicio1
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.parcial2eventos.ejercicio1.model.Clase
@@ -13,10 +14,23 @@ class ClaseRepository @Inject constructor(private val firestore: FirebaseFiresto
         const val TAG = "Clase Repository"
     }
 
-    fun addClase(clase: Clase): Task<Void> {
-        val document = firestore.collection("clases").document()
-        val claseWithId = clase.copy(id = document.id)
-        return document.set(claseWithId)
+    fun addClase(clase: Clase, onSuccess: () -> Unit, onError: (Exception) -> Unit): Task<Void> {
+        try {
+            val document = firestore.collection("clases").document()
+            val claseWithId = clase.copy(id = document.id)
+            document.set(claseWithId)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Clase añadida: ${clase.nombre}")
+                    onSuccess()
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Error al añadir clase", e)
+                    onError(e)
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "Excepción al añadir clase", e)
+            onError(e)
+        }
     }
 
     fun getClasesPorDia(dia: String): LiveData<List<Clase>> {
