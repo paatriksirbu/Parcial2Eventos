@@ -39,6 +39,7 @@ class InicioActivity : AppCompatActivity() {
         }
 
         btnEjercicio3.setOnClickListener {
+            // Redirigir a Ejercicio 2: PharmacyListActivity
             try {
                 val intent = Intent(this, PharmacyDetailActivity::class.java)
                 startActivity(intent)

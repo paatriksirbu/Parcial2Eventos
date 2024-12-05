@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         setupButtons()
     }
 
-
     private fun initializeViewModel(){
         val claseRepository = ClaseRepository(FirebaseFirestore.getInstance())
         val factory = ClaseViewModelFactory(claseRepository)

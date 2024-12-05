@@ -133,13 +133,14 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
                             // Opción para guardar en Firestore al hacer clic
                             mMap.setOnMarkerClickListener { marker ->
                                 val pharmacy = hashMapOf(
-                                    "name" to name,
-                                    "address" to address,
+                                    "name" to marker.title,
+                                    "address" to marker.snippet,
                                     "latitude" to marker.position.latitude,
                                     "longitude" to marker.position.longitude
                                 )
 
-                                showPharmacyDetails(name, address, marker.position.latitude, marker.position.longitude)
+                                showPharmacyDetails(marker.title.toString(),
+                                    marker.snippet.toString(), marker.position.latitude, marker.position.longitude)
 
                                 true
                             }
