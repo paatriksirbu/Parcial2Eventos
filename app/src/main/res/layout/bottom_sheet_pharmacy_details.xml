@@ -1,41 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_margin="16dp"
+    android:backgroundTint="?attr/colorSurface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
 
-    <!-- Nombre de la farmacia -->
-    <TextView
-        android:id="@+id/txt_pharmacy_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre de la farmacia"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:ignore="ExtraText">
 
-    <!-- Dirección de la farmacia -->
-    <TextView
-        android:id="@+id/txt_pharmacy_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dirección de la farmacia"
-        android:layout_marginTop="8dp" />
+        <!-- Icono de la farmacia -->
+        <ImageView
+            android:id="@+id/img_pharmacy_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_pharmacy"
+            />
 
-    <!-- Coordenadas de la farmacia -->
-    <TextView
-        android:id="@+id/txt_pharmacy_coordinates"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lat: 0.0, Lng: 0.0"
-        android:layout_marginTop="8dp" />
+        <!-- Nombre de la farmacia -->
+        <TextView
+            android:id="@+id/txt_pharmacy_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nombre de la Farmacia"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
 
-    <!-- Botón para guardar la farmacia -->
-    <Button
-        android:id="@+id/btn_save_pharmacy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guardar en Firestore"
-        android:layout_marginTop="16dp" />
-</LinearLayout>
+        <!-- Dirección de la farmacia -->
+        <TextView
+            android:id="@+id/txt_pharmacy_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dirección de la Farmacia"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurface" />
+
+        <!-- Coordenadas de la farmacia -->
+        <TextView
+            android:id="@+id/txt_pharmacy_coordinates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Lat: 0.0, Lng: 0.0"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurface" />
+
+        <!-- Botón para guardar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save_pharmacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Guardar Farmacia en Firestore"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_save">
+            app:iconGravity="start"
+            app:iconPadding="8dp"
+            app:iconTint="?attr/colorOnPrimary"
+        </com.google.android.material.button.MaterialButton>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
