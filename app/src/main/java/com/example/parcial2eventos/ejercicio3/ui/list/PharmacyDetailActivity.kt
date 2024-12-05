@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.concurrent.Executors
 import okhttp3.OkHttpClient
@@ -130,29 +133,14 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
                             // Opción para guardar en Firestore al hacer clic
                             mMap.setOnMarkerClickListener { marker ->
                                 val pharmacy = hashMapOf(
-                                    "name" to marker.title,
-                                    "address" to marker.snippet,
+                                    "name" to name,
+                                    "address" to address,
                                     "latitude" to marker.position.latitude,
                                     "longitude" to marker.position.longitude
                                 )
 
-                                // Guardar en Firestore
-                                firestore.collection(PHARMACY_COLLECTION)
-                                    .add(pharmacy)
-                                    .addOnSuccessListener {
-                                        Toast.makeText(
-                                            this,
-                                            "Farmacia guardada en Firestore",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(
-                                            this,
-                                            "Error al guardar: ${e.message}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
+                                showPharmacyDetails(name, address, marker.position.latitude, marker.position.longitude)
+
                                 true
                             }
                         }
@@ -170,6 +158,46 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
             }
         }
     }
+
+    private fun showPharmacyDetails(name: String, address: String, latitude: Double, longitude: Double) {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_pharmacy_details, null)
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        // Configurar los datos de la farmacia
+        val txtName = bottomSheetView.findViewById<TextView>(R.id.txt_pharmacy_name)
+        val txtAddress = bottomSheetView.findViewById<TextView>(R.id.txt_pharmacy_address)
+        val txtCoordinates = bottomSheetView.findViewById<TextView>(R.id.txt_pharmacy_coordinates)
+        val btnSave = bottomSheetView.findViewById<Button>(R.id.btn_save_pharmacy)
+
+        txtName.text = name
+        txtAddress.text = address
+        txtCoordinates.text = "Lat: $latitude, Lng: $longitude"
+
+        // Configurar el botón para guardar en Firestore
+        btnSave.setOnClickListener {
+            val pharmacy = hashMapOf(
+                "name" to name,
+                "address" to address,
+                "latitude" to latitude,
+                "longitude" to longitude
+            )
+
+            firestore.collection(PHARMACY_COLLECTION)
+                .add(pharmacy)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Farmacia guardada en Firestore", Toast.LENGTH_SHORT).show()
+                    bottomSheetDialog.dismiss()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+        bottomSheetDialog.show()
+    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
