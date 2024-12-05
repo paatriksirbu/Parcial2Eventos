@@ -16,6 +16,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.concurrent.Executors
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 
 class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
 
@@ -25,11 +29,14 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val PHARMACY_COLLECTION = "Pharmacies"
+        private const val GOOGLE_MAPS_API_KEY = "AIzaSyDA_2udnmh6p9-FNWRJo1gnsif1Q7aC8Iw" // <--- Inserta aquí tu API Key
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pharmacy_detail)
+
+        // Debug para verificar que la actividad se crea correctamente
         Log.d("PharmacyDetailActivity", "Actividad creada")
 
         // Configurar el fragmento del mapa
@@ -45,9 +52,12 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
             enableMyLocation()
         }
 
-        // Cargar los detalles de la farmacia desde Firestore
-        val pharmacyId = intent.getStringExtra("pharmacyId") ?: return
-        loadPharmacyDetails(pharmacyId)
+        // Centrar el mapa en una ubicación por defecto (Zaragoza)
+        val defaultLocation = LatLng(41.6488226, -0.8890853) // Coordenadas de Zaragoza
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12.0f))
+
+        // Obtener farmacias cercanas
+        fetchNearbyPharmacies(defaultLocation)
     }
 
     private fun checkAndRequestPermissions(): Boolean {
@@ -77,34 +87,88 @@ class PharmacyDetailActivity : FragmentActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun loadPharmacyDetails(pharmacyId: String) {
-        firestore.collection(PHARMACY_COLLECTION).document(pharmacyId)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val name = document.getString("name") ?: "Farmacia sin nombre"
-                    val address = document.getString("address") ?: "Dirección desconocida"
-                    val latitude = document.getDouble("latitude") ?: 0.0
-                    val longitude = document.getDouble("longitude") ?: 0.0
-                    val location = LatLng(latitude, longitude)
+    /**
+     * Obtiene las farmacias cercanas utilizando la API de Google Maps
+     */
+    private fun fetchNearbyPharmacies(location: LatLng) {
+        val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                "?location=${location.latitude},${location.longitude}" +
+                "&radius=2000&type=pharmacy&key=$GOOGLE_MAPS_API_KEY"
 
-                    // Mostrar marcador en el mapa
-                    mMap.addMarker(
-                        MarkerOptions()
-                            .position(location)
-                            .title(name)
-                            .snippet(address)
-                    )
+        // Ejecutar la solicitud en un hilo separado
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute {
+            try {
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url).build()
+                val response = client.newCall(request).execute()
 
-                    // Centrar el mapa en la farmacia
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f))
+                if (response.isSuccessful && response.body != null) {
+                    val responseBody = response.body!!.string()
+                    val jsonObject = JSONObject(responseBody)
+                    val results = jsonObject.getJSONArray("results")
+
+                    runOnUiThread {
+                        for (i in 0 until results.length()) {
+                            val place = results.getJSONObject(i)
+                            val name = place.getString("name")
+                            val address = place.getString("vicinity")
+                            val geometry = place.getJSONObject("geometry")
+                            val locationObj = geometry.getJSONObject("location")
+                            val lat = locationObj.getDouble("lat")
+                            val lng = locationObj.getDouble("lng")
+
+                            // Crear marcador en el mapa
+                            val pharmacyLocation = LatLng(lat, lng)
+                            mMap.addMarker(
+                                MarkerOptions()
+                                    .position(pharmacyLocation)
+                                    .title(name)
+                                    .snippet(address)
+                            )
+
+                            // Opción para guardar en Firestore al hacer clic
+                            mMap.setOnMarkerClickListener { marker ->
+                                val pharmacy = hashMapOf(
+                                    "name" to marker.title,
+                                    "address" to marker.snippet,
+                                    "latitude" to marker.position.latitude,
+                                    "longitude" to marker.position.longitude
+                                )
+
+                                // Guardar en Firestore
+                                firestore.collection(PHARMACY_COLLECTION)
+                                    .add(pharmacy)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(
+                                            this,
+                                            "Farmacia guardada en Firestore",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(
+                                            this,
+                                            "Error al guardar: ${e.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                true
+                            }
+                        }
+                    }
                 } else {
-                    Toast.makeText(this, "Farmacia no encontrada", Toast.LENGTH_SHORT).show()
+                    runOnUiThread {
+                        Toast.makeText(this, "Error al obtener farmacias", Toast.LENGTH_SHORT).show()
+                    }
                 }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(this, "Error al realizar la solicitud", Toast.LENGTH_SHORT).show()
+                }
+                e.printStackTrace()
             }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Error al cargar detalles: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
 
     override fun onRequestPermissionsResult(
